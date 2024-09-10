@@ -1,0 +1,143 @@
+﻿@page "/game"
+@page "/game/{id:int}"
+@using System.ComponentModel.DataAnnotations
+@using System.Net.Http.Headers
+@using Clients
+@using Models
+@inject NavigationManager NavigationManager
+@inject GamesClient GamesClient;
+@inject GenresClient GenresClient;
+@inject IHostEnvironment hostEnvironment;
+
+<PageTitle>@title</PageTitle>
+<h3>@title</h3>
+
+@if (Model is null || genres is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (errorList.Count > 0)
+    {
+        @foreach (var error in errorList)
+        {
+            <div class="alert alert-danger">@error</div>
+        }
+    }
+
+    <div class="row mb-4">
+        <div class="col-sm-4">
+            <EditForm FormName="editgame" Model="@Model" OnValidSubmit="HandleSubmitAsync" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="Model!.Name" class="form-control"></InputText>
+                </div>
+                <div class="mb-3">
+                    <label for="genre" class="form-label">Genre:</label>
+                    <InputSelect id="genre" @bind-Value="Model!.GenreId" class="form-select">
+                        <option value="0">Select a genre</option>
+                        @foreach (var genre in genres)
+                        {
+                            <option value="@genre.Id">@genre.Name</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price:</label>
+                    <InputNumber id="price" @bind-Value="Model.Price" class="form-control"></InputNumber>
+                </div>
+                <div class="mb-3">
+                    <label for="releaseDate" class="form-label">Release Date:</label>
+                    <InputDate id="releaseDate" @bind-Value="Model.ReleaseDate" class="form-control"></InputDate>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a role="button" class="btn btn-secondary" href="/">Cancel</a>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    [SupplyParameterFromForm]
+    public GameDetails? Model { get; set; }
+
+    private string title = string.Empty;
+
+    private List<string> errorList = [];
+
+    private Genre[]? genres;
+
+    protected override async Task OnInitializedAsync()
+    {
+        genres = await GenresClient.GetGenresAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Model is not null)
+        {
+            return;
+        }
+
+        if (Id is not null)
+        {
+            GameDetails foundGame = await GamesClient.GetGameAsync(Id.Value);
+            Model = new()
+                {
+                    Id = foundGame.Id,
+                    Name = foundGame.Name,
+                    GenreId = foundGame.GenreId,
+                    Price = foundGame.Price,
+                    ReleaseDate = foundGame.ReleaseDate
+                };
+
+            title = $"Edit {Model.Name}";
+        }
+        else
+        {
+            Model = new()
+                {
+                    Name = string.Empty,
+                    GenreId = 0,
+                    ReleaseDate = DateOnly.FromDateTime(DateTime.UtcNow)
+                };
+
+            title = "New game";
+        }
+    }
+
+    private async Task HandleSubmitAsync()
+    {
+        ArgumentNullException.ThrowIfNull(Model);
+
+        if (Id is null)
+        {
+            await GamesClient.AddGameAsync(Model);
+        }
+        else
+        {
+            Model.Id = Id.Value;
+            await GamesClient.UpdateGameAsync(Model);
+        }
+
+        NavigateHome();
+    }
+
+    private void NavigateHome()
+    {
+        var navigateToUri = "";
+
+        if (!hostEnvironment.IsDevelopment())
+        {
+            navigateToUri = NavigationManager.BaseUri.Replace("http", "https");
+        }
+
+        NavigationManager.NavigateTo(navigateToUri);
+    }
+}

@@ -1,0 +1,9 @@
+.card-img-container {
+    height: 300px;  /* Adjust as needed */
+}
+.card-img-top {
+    width: 100%; /* Ensure the width of the image is always 100% of the container */
+    height: 100%; /* Ensure the height of the image is always 100% of the container */
+    object-fit: contain; /* Image will scale to maintain aspect ratio while fitting within the container */
+    object-position: top; /* Align the image to the top of the container */
+}

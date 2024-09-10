@@ -1,0 +1,84 @@
+﻿@page "/"
+@using Clients
+@using Models
+@inject NavigationManager NavigationManager
+@inject GamesClient gamesClient;
+@attribute [StreamRendering]
+
+<PageTitle>Game Store</PageTitle>
+
+<nav class="navbar navbar-light mb-2">
+    <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+        <a class="btn btn-primary" role="button" href="/game">New Game</a>
+    </div>
+</nav>
+
+@if (games is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Genre</th>
+                <th class="text-end">Price</th>
+                <th>Release Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var game in games)
+            {
+                <tr>
+                    <td>@game.Id</td>
+                    <td>@game.Name</td>
+                    <td>@game.Genre</td>
+                    <td class="text-end">@game.Price.ToString("C2")</td>
+                    <td>@game.ReleaseDate.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a class="btn btn-primary me-2" role="button" href="@GameUrl(game.Id)"><i
+                                class="bi-pencil"></i></a>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@GetDeleteModalId(game)">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                        <DeleteGame Game="@game" OnClose="@OnDeleteModalCloseAsync" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>    
+}
+
+@code {
+    private GameSummary[]? games;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchGamesAsync();
+    }
+
+    public static string GameUrl(int id)
+    => $"/game/{id}";
+
+    private async Task OnDeleteModalCloseAsync(bool accepted)
+    {
+        if (accepted)
+        {
+            await FetchGamesAsync();
+        }
+    }
+
+    private async Task FetchGamesAsync()
+    {
+        games = await gamesClient.GetGamesAsync();
+    }
+
+    private string GetDeleteModalId(GameSummary game)
+    {
+        return $"#deleteModal-{game.Id}";
+    }
+}

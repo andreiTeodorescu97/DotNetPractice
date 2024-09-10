@@ -1,0 +1,47 @@
+﻿@using Clients
+@using Models
+@inject GamesClient client;
+
+<div class="modal fade" id="@GetModalId()" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">@title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <form method="post" @onsubmit="ConfirmAsync" @formname="@GetModalId()" data-enhance>
+          <AntiforgeryToken />
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+@code {
+  [Parameter]
+  public GameSummary? Game { get; set; }
+
+  [Parameter]
+  public EventCallback<bool> OnClose { get; set; }
+
+  private string title = string.Empty;
+
+  protected override void OnParametersSet()
+  {
+    title = $"Delete {Game?.Name}?";
+  }
+
+  private async Task ConfirmAsync()
+  {
+    await client.DeleteGameAsync(Game!.Id);
+    await OnClose.InvokeAsync(true);
+  }
+
+  private string GetModalId()
+  {
+    return $"deleteModal-{Game?.Id}";
+  }
+}
