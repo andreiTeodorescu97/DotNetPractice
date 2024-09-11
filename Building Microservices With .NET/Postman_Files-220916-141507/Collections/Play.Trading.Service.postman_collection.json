@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "2edd1760-b3f8-483e-a885-430bd0ec52e6",
+		"name": "Play.Trading.Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "purchase",
+			"item": [
+				{
+					"name": "/purchase",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessTokenUrl",
+									"value": "{{identityBaseUrl}}/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{identityBaseUrl}}//connect/authorize?prompt=login",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid profile catalog.fullaccess inventory.fullaccess trading.fullaccess IdentityServerApi roles",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "postman",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "urn:ietf:wg:oauth:2.0:oob",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"itemId\": \"ef2062ac-0ff9-48c2-8080-04cb8b84ea0a\",\n    \"quantity\": 1,\n    \"idempotencyId\": \"{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "{{tradingBaseUrl}}/purchase",
+							"host": [
+								"{{tradingBaseUrl}}"
+							],
+							"path": [
+								"purchase"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"itemId\": \"urn:uuid:4bdf37ee-7ec5-553c-d4af-04a5dcc58f97\",\n    \"quantity\": 47891576,\n    \"idempotencyId\": \"c6ff6672-6f2a-27a5-cbde-08df77cb2393\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/purchase",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"purchase"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "/purchase/status/:idempotencyId",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessTokenUrl",
+									"value": "{{identityBaseUrl}}/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{identityBaseUrl}}//connect/authorize?prompt=login",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid profile catalog.fullaccess inventory.fullaccess trading.fullaccess IdentityServerApi roles",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "postman",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "urn:ietf:wg:oauth:2.0:oob",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{tradingBaseUrl}}/purchase/status/e71165f5-e3e8-4f08-b8ce-69fd46bdd867",
+							"host": [
+								"{{tradingBaseUrl}}"
+							],
+							"path": [
+								"purchase",
+								"status",
+								"e71165f5-e3e8-4f08-b8ce-69fd46bdd867"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/purchase/status/:idempotencyId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"purchase",
+										"status",
+										":idempotencyId"
+									],
+									"variable": [
+										{
+											"key": "idempotencyId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"userId\": \"dd263151-3734-0a1b-c50c-08d46c516cf9\",\n \"itemId\": \"c61e282e-2f8b-1fdc-7adc-f7f5be9ac494\",\n \"purchaseTotal\": -51774464.69938376,\n \"quantity\": -22754311,\n \"state\": \"nostrud officia dolor\",\n \"reason\": \"labore esse\",\n \"received\": \"2019-11-22T20:11:42.716Z\",\n \"lastUpdated\": \"1948-08-20T16:35:28.640Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "/store",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessTokenUrl",
+							"value": "{{identityBaseUrl}}/connect/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{identityBaseUrl}}/connect/authorize?prompt=login",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid profile catalog.fullaccess inventory.fullaccess trading.fullaccess IdentityServerApi roles",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "postman",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "urn:ietf:wg:oauth:2.0:oob",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code_with_pkce",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{tradingBaseUrl}}/store",
+					"host": [
+						"{{tradingBaseUrl}}"
+					],
+					"path": [
+						"store"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/store",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"items\": [\n  {\n   \"id\": \"urn:uuid:23167fed-e4a9-2f92-027d-862f30ff8c44\",\n   \"name\": \"ipsum ex\",\n   \"description\": \"incididunt fugiat dolor dolor\",\n   \"price\": -21087812.610350683,\n   \"ownedQuantity\": 67860565\n  },\n  {\n   \"id\": \"0fe10e55-ce9c-7aea-8584-8768f9522b17\",\n   \"name\": \"tempor elit culpa\",\n   \"description\": \"ex\",\n   \"price\": 62355351.8413932,\n   \"ownedQuantity\": 10751284\n  }\n ],\n \"userGil\": 25436276.74805759\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:5007"
+		}
+	]
+}
