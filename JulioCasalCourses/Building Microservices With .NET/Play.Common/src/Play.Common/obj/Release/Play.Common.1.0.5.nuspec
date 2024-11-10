@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Play.Common</id>
+    <version>1.0.5</version>
+    <authors>Play.Common</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="68cea3de5e3cb90186f353da0239509fc1b1d5aa" />
+    <dependencies>
+      <group targetFramework="net5.0">
+        <dependency id="MassTransit.AspNetCore" version="7.1.4" exclude="Build,Analyzers" />
+        <dependency id="MassTransit.RabbitMQ" version="7.1.4" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Authentication.JwtBearer" version="5.0.5" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.Binder" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection" version="5.0.1" exclude="Build,Analyzers" />
+        <dependency id="MongoDB.Driver" version="2.11.6" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\UQ63XU\source\repos\DotNetPractice\JulioCasalCourses\Building Microservices With .NET\Play.Common\src\Play.Common\bin\Release\net5.0\Play.Common.dll" target="lib\net5.0\Play.Common.dll" />
+  </files>
+</package>

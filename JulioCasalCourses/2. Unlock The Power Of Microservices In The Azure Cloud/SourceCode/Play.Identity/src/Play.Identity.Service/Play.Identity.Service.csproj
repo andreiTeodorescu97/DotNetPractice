@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <UserSecretsId>d3211b89-44d5-46cf-84d5-13172985dfca</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="3.1.2" />
+    <PackageReference Include="Duende.IdentityServer" Version="6.1.7" />
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+    <PackageReference Include="Play.Common" Version="1.0.24" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Play.Identity.Contracts\Play.Identity.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

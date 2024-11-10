@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trading-deployment
+spec:
+  selector:
+    matchLabels:
+      app: trading
+  template:
+    metadata:
+      labels:
+        app: trading
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: trading-serviceaccount
+      containers:
+        - name: trading
+          image: playeconomy.azurecr.io/play.trading:1.0.2
+          env:
+            - name: ServiceSettings__MessageBroker
+              value: SERVICEBUS
+            - name: ServiceSettings__KeyVaultName
+              value: playeconomy
+            - name: ServiceSettings__Authority
+              value: https://playeconomy.eastus.cloudapp.azure.com/identity-svc
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "150m"
+          ports:
+            - containerPort: 5006
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 5006
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 5006
+            initialDelaySeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trading-service
+spec:
+  type: ClusterIP
+  selector:
+    app: trading
+  ports:
+    - port: 80
+      targetPort: 5006
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: trading-serviceaccount
+  annotations:
+    azure.workload.identity/client-id: dd9d3ba7-63c5-4307-85f9-4cbb552ddec0
+  labels:
+    azure.workload.identity/use: "true"

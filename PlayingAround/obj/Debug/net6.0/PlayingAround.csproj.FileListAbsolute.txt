@@ -1,0 +1,14 @@
+C:\Users\UQ63XU\source\repos\PlayingAround\bin\Debug\net6.0\PlayingAround.exe
+C:\Users\UQ63XU\source\repos\PlayingAround\bin\Debug\net6.0\PlayingAround.deps.json
+C:\Users\UQ63XU\source\repos\PlayingAround\bin\Debug\net6.0\PlayingAround.runtimeconfig.json
+C:\Users\UQ63XU\source\repos\PlayingAround\bin\Debug\net6.0\PlayingAround.dll
+C:\Users\UQ63XU\source\repos\PlayingAround\bin\Debug\net6.0\PlayingAround.pdb
+C:\Users\UQ63XU\source\repos\PlayingAround\obj\Debug\net6.0\PlayingAround.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\UQ63XU\source\repos\PlayingAround\obj\Debug\net6.0\PlayingAround.AssemblyInfoInputs.cache
+C:\Users\UQ63XU\source\repos\PlayingAround\obj\Debug\net6.0\PlayingAround.AssemblyInfo.cs
+C:\Users\UQ63XU\source\repos\PlayingAround\obj\Debug\net6.0\PlayingAround.csproj.CoreCompileInputs.cache
+C:\Users\UQ63XU\source\repos\PlayingAround\obj\Debug\net6.0\PlayingAround.dll
+C:\Users\UQ63XU\source\repos\PlayingAround\obj\Debug\net6.0\refint\PlayingAround.dll
+C:\Users\UQ63XU\source\repos\PlayingAround\obj\Debug\net6.0\PlayingAround.pdb
+C:\Users\UQ63XU\source\repos\PlayingAround\obj\Debug\net6.0\PlayingAround.genruntimeconfig.cache
+C:\Users\UQ63XU\source\repos\PlayingAround\obj\Debug\net6.0\ref\PlayingAround.dll

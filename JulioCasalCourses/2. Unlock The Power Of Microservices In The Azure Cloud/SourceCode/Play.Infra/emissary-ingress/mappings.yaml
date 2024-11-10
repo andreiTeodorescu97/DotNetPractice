@@ -1,0 +1,50 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: identity-mapping
+spec:
+  hostname: playeconomy.eastus.cloudapp.azure.com
+  prefix: /identity-svc/
+  service: identity-service.identity
+
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: catalog-mapping
+spec:
+  hostname: playeconomy.eastus.cloudapp.azure.com
+  prefix: /catalog-svc/
+  service: catalog-service.catalog
+
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: inventory-mapping
+spec:
+  hostname: playeconomy.eastus.cloudapp.azure.com
+  prefix: /inventory-svc/
+  service: inventory-service.inventory
+
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: trading-mapping
+spec:
+  hostname: playeconomy.eastus.cloudapp.azure.com
+  prefix: /trading-svc/
+  service: trading-service.trading
+  allow_upgrade:
+    - websocket
+
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: frontend-mapping
+spec:
+  hostname: playeconomy.eastus.cloudapp.azure.com
+  prefix: /
+  service: frontend-client.frontend

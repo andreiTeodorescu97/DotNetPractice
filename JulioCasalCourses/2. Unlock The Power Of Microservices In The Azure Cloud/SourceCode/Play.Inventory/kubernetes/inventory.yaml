@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-deployment
+spec:
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: inventory-serviceaccount
+      containers:
+        - name: inventory
+          image: playeconomy.azurecr.io/play.inventory:1.0.4
+          env:
+            - name: ServiceSettings__MessageBroker
+              value: SERVICEBUS
+            - name: ServiceSettings__KeyVaultName
+              value: playeconomy
+            - name: ServiceSettings__Authority
+              value: https://playeconomy.eastus.cloudapp.azure.com/identity-svc
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "150m"
+          ports:
+            - containerPort: 5004
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 5004
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 5004
+            initialDelaySeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-service
+spec:
+  type: ClusterIP
+  selector:
+    app: inventory
+  ports:
+    - port: 80
+      targetPort: 5004
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: inventory-serviceaccount
+  annotations:
+    azure.workload.identity/client-id: 6199739d-0409-4a1f-be92-94ee851b9a23
+  labels:
+    azure.workload.identity/use: "true"

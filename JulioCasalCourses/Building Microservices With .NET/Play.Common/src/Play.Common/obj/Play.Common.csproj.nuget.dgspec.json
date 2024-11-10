@@ -1,0 +1,100 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\UQ63XU\\source\\repos\\DotNetPractice\\JulioCasalCourses\\Building Microservices With .NET\\Play.Common\\src\\Play.Common\\Play.Common.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\UQ63XU\\source\\repos\\DotNetPractice\\JulioCasalCourses\\Building Microservices With .NET\\Play.Common\\src\\Play.Common\\Play.Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\UQ63XU\\source\\repos\\DotNetPractice\\JulioCasalCourses\\Building Microservices With .NET\\Play.Common\\src\\Play.Common\\Play.Common.csproj",
+        "projectName": "Play.Common",
+        "projectPath": "C:\\Users\\UQ63XU\\source\\repos\\DotNetPractice\\JulioCasalCourses\\Building Microservices With .NET\\Play.Common\\src\\Play.Common\\Play.Common.csproj",
+        "packagesPath": "C:\\Users\\UQ63XU\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\UQ63XU\\source\\repos\\DotNetPractice\\JulioCasalCourses\\Building Microservices With .NET\\Play.Common\\src\\Play.Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\UQ63XU\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "C:\\Users\\UQ63XU\\source\\repos\\DotNetPractice\\JulioCasalCourses\\Building Microservices With .NET": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "MassTransit.AspNetCore": {
+              "target": "Package",
+              "version": "[7.1.4, )"
+            },
+            "MassTransit.RabbitMQ": {
+              "target": "Package",
+              "version": "[7.1.4, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Binder": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.11.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

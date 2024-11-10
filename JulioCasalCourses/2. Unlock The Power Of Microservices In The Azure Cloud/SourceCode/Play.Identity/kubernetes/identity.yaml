@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity-deployment
+spec:
+  selector:
+    matchLabels:
+      app: identity
+  template:
+    metadata:
+      labels:
+        app: identity
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: identity-serviceaccount
+      containers:
+        - name: identity
+          image: playeconomy.azurecr.io/play.identity:1.0.10
+          env:
+            - name: ServiceSettings__MessageBroker
+              value: SERVICEBUS
+            - name: ServiceSettings__KeyVaultName
+              value: playeconomy
+            - name: IdentitySettings__PathBase
+              value: /identity-svc
+            - name: IdentitySettings__CertificateCerFilePath
+              value: "/certificates/certificate.crt"
+            - name: IdentitySettings__CertificateKeyFilePath
+              value: "/certificates/certificate.key"
+            - name: IdentityServerSettings__Clients__0__RedirectUris__0
+              value: https://playeconomy.eastus.cloudapp.azure.com/authentication/login-callback
+            - name: IdentityServerSettings__Clients__0__PostLogoutRedirectUris__0
+              value: https://playeconomy.eastus.cloudapp.azure.com/authentication/logout-callback              
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "150m"
+          ports:
+            - containerPort: 5002
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 5002
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 5002
+            initialDelaySeconds: 10
+          volumeMounts:
+            - name: certificate-volume
+              mountPath: /certificates
+      volumes:
+        - name: certificate-volume
+          secret:
+            secretName: signing-cert
+            items:
+              - key: tls.key
+                path: certificate.key
+              - key: tls.crt
+                path: certificate.crt
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity-service
+spec:
+  type: ClusterIP
+  selector:
+    app: identity
+  ports:
+    - port: 80
+      targetPort: 5002
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: identity-serviceaccount
+  annotations:
+    azure.workload.identity/client-id: b68260b6-466a-4483-b432-6df6f7073df1
+  labels:
+    azure.workload.identity/use: "true"

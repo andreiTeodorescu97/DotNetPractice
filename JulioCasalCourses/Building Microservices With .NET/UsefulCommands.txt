@@ -1,0 +1,6 @@
+RabbitMQ credentials:
+guest
+guest
+dotnet nuget add source "C:\Users\UQ63XU\source\repos\DotNetPractice\JulioCasalCourses\Building Microservices With .NET" -n PlayEconomy
+dotnet pack -P:PackageVersion=1.0.5  -o ..\packages -- for common
+dotnet pack -P:PackageVersion=1.0.1  -o ..\..\..\packages -- for contracts
