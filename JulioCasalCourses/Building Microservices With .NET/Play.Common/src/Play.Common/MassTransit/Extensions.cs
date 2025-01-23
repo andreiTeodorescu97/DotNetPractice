@@ -13,6 +13,47 @@ namespace Play.Common.MassTransit
 {
     public static class Extensions
     {
+        private const string RabbitMq = "RABBITMQ";
+        private const string AzureServiceBus = "SERVICEBUS";
+
+        public static IServiceCollection AddMassTransitWithMessageBroker(
+            this IServiceCollection services,
+            IConfiguration config,
+            Action<IRetryConfigurator> configureRetries = null)
+        {
+            var serviceSettings = config.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
+            switch (serviceSettings.MessageBroker?.ToUpper())
+            {
+                case AzureServiceBus:
+                    services.AddMassTransitWithAzureServiceBus(configureRetries);
+                    break;
+                case RabbitMq:
+                default:
+                    services.AddMassTransitWithRabbitMq(configureRetries);
+                    break;
+            }
+
+            return services;
+        }
+
+        public static void UsingPlayEconomyMessageBroker(
+            this IServiceCollectionBusConfigurator configure,
+            IConfiguration config,
+            Action<IRetryConfigurator> configureRetries = null)
+        {
+            var serviceSettings = config.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
+            switch (serviceSettings.MessageBroker?.ToUpper())
+            {
+                case AzureServiceBus:
+                    configure.UsingPlayEconomyAzureServiceBus(configureRetries);
+                    break;
+                case RabbitMq:
+                default:
+                    configure.UsingPlayEconomyRabbitMq(configureRetries);
+                    break;
+            }
+        }
+
         public static IServiceCollection AddMassTransitWithRabbitMq(
             this IServiceCollection services,
             Action<IRetryConfigurator> configureRetries = null)
@@ -21,6 +62,21 @@ namespace Play.Common.MassTransit
             {
                 configure.AddConsumers(Assembly.GetEntryAssembly());
                 configure.UsingPlayEconomyRabbitMq(configureRetries);
+            });
+
+            services.AddMassTransitHostedService();
+
+            return services;
+        }
+
+        public static IServiceCollection AddMassTransitWithAzureServiceBus(
+            this IServiceCollection services,
+            Action<IRetryConfigurator> configureRetries = null)
+        {
+            services.AddMassTransit(configure =>
+            {
+                configure.AddConsumers(Assembly.GetEntryAssembly());
+                configure.UsingPlayEconomyAzureServiceBus(configureRetries);
             });
 
             services.AddMassTransitHostedService();
@@ -38,6 +94,27 @@ namespace Play.Common.MassTransit
                 var serviceSettings = configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
                 var rabbitMQSettings = configuration.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
                 configurator.Host(rabbitMQSettings.Host);
+                configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(serviceSettings.ServiceName, false));
+
+                if (configureRetries == null)
+                {
+                    configureRetries = (retryConfigurator) => retryConfigurator.Interval(3, TimeSpan.FromSeconds(5));
+                }
+
+                configurator.UseMessageRetry(configureRetries);
+            });
+        }
+
+        public static void UsingPlayEconomyAzureServiceBus(
+            this IServiceCollectionBusConfigurator configure,
+            Action<IRetryConfigurator> configureRetries = null)
+        {
+            configure.UsingAzureServiceBus((context, configurator) =>
+            {
+                var configuration = context.GetService<IConfiguration>();
+                var serviceSettings = configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
+                var serviceBusSettings = configuration.GetSection(nameof(ServiceBusSettings)).Get<ServiceBusSettings>();
+                configurator.Host(serviceBusSettings.ConnectionString);
                 configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(serviceSettings.ServiceName, false));
 
                 if (configureRetries == null)

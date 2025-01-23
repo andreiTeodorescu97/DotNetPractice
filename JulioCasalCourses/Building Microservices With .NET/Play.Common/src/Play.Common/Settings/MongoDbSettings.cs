@@ -6,6 +6,17 @@ namespace Play.Common.Settings
 
         public int Port { get; init; }
 
-        public string ConnectionString => $"mongodb://{Host}:{Port}";
+        //public string ConnectionString => $"mongodb://{Host}:{Port}";
+        private string connectionStringField;
+        public string ConnectionString
+        {
+            get 
+            { 
+                return string.IsNullOrWhiteSpace(connectionStringField) 
+                ? $"mongodb://{Host}:{Port}" : connectionStringField; 
+            }
+            init { connectionStringField = value; }
+        }
+
     }
 }

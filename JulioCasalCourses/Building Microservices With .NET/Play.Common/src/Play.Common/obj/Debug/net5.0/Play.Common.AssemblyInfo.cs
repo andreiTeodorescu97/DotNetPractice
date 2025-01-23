@@ -10,10 +10,10 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("Play.Common")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Play Economy")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6410a1d2a6f0564c291a9e9980e3e2d69bc70911")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a093ff71f3b2ae66b6982d628b5d4e272d613af0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Play.Common")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Play.Common")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

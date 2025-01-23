@@ -4,3 +4,11 @@ guest
 dotnet nuget add source "C:\Users\UQ63XU\source\repos\DotNetPractice\JulioCasalCourses\Building Microservices With .NET" -n PlayEconomy
 dotnet pack -P:PackageVersion=1.0.5  -o ..\packages -- for common
 dotnet pack -P:PackageVersion=1.0.1  -o ..\..\..\packages -- for contracts
+
+
+dotnet nuget list source
+dotnet nuget add source --username doesntmatterusername --password $gt_pat --store-password-in-clear-text --name github "https://nuget.pkg.github.com/$owner/index.json"
+
+db admin login
+andrei997
+1234!Asd
