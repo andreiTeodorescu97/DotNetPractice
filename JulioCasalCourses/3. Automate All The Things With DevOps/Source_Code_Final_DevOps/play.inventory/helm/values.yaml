@@ -1,0 +1,11 @@
+microserviceName: "inventory"
+
+image:
+  repository: playeconomy.azurecr.io/play.inventory
+  tag: 1.0.4
+
+envVariables:
+  ServiceSettings__Authority: https://playeconomy.eastus.cloudapp.azure.com/identity-svc
+
+container:
+  port: 5004

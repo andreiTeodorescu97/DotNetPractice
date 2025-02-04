@@ -1,0 +1,24 @@
+envVariables:
+  ServiceSettings__MessageBroker: SERVICEBUS
+  ServiceSettings__KeyVaultName: playeconomy
+  SeqSettings__Host: seq.observability
+  SeqSettings__Port: 5341
+  JaegerSettings__Host: jaeger-query.observability
+  JaegerSettings__Port: 6831
+
+resources:
+  limits:
+    memory: "128Mi"
+    cpu: "150m"
+
+container:
+  liveness:
+    path: /health/live
+    initialDelaySeconds: 10
+  readiness:
+    path: /health/ready
+    initialDelaySeconds: 10
+
+service:
+  type: ClusterIP
+  port: 80

@@ -1,0 +1,13 @@
+microserviceName: "trading"
+
+image:
+  repository: playeconomy.azurecr.io/play.trading
+  tag: 1.0.2
+
+envVariables:
+  ServiceSettings__Authority: https://playeconomy.eastus.cloudapp.azure.com/identity-svc
+
+container:
+  port: 5006
+
+identityClientId: dd9d3ba7-63c5-4307-85f9-4cbb552ddec0

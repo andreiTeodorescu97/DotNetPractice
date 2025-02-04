@@ -1,0 +1,34 @@
+microserviceName: "identity"
+
+image:
+  repository: playeconomy.azurecr.io/play.identity
+  tag: 1.0.10
+
+envVariables:
+  IdentitySettings__PathBase: /identity-svc
+  IdentitySettings__CertificateCerFilePath: "/certificates/certificate.crt"
+  IdentitySettings__CertificateKeyFilePath: "/certificates/certificate.key"
+  IdentityServerSettings__Clients__0__RedirectUris__0: https://playeconomy.eastus.cloudapp.azure.com/authentication/login-callback
+  IdentityServerSettings__Clients__0__PostLogoutRedirectUris__0: https://playeconomy.eastus.cloudapp.azure.com/authentication/logout-callback
+
+container:
+  port: 5002
+  volumeMounts:
+    - name: certificate-volume
+      mountPath: /certificates    
+
+volumes:
+  - name: certificate-volume
+    secret:
+      secretName: signing-cert
+      items:
+        - key: tls.key
+          path: certificate.key
+        - key: tls.crt
+          path: certificate.crt
+
+certificate:
+  secretName: signing-cert
+  hostname: playeconomy.eastus.cloudapp.azure.com
+
+identityClientId: b68260b6-466a-4483-b432-6df6f7073df1

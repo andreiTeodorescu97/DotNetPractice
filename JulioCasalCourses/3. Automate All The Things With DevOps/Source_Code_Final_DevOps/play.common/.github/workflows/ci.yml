@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  generate-version:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write    
+
+    steps:
+    - uses: actions/checkout@v3   
+    
+    - name: Github Tag Bump
+      id: tab_bump
+      uses: anothrNick/github-tag-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
+        INITIAL_VERSION: 1.0.10
+        DEFAULT_BUMP: patch
+        
+    outputs:
+      new_version: ${{ steps.tab_bump.outputs.new_tag }}
+
+  package-and-publish-contracts:
+
+    runs-on: ubuntu-latest
+    needs: generate-version
+
+    permissions:
+      contents: read
+      packages: write        
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+        source-url: https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        
+    - name: Pack
+      run: | 
+        dotnet pack src/Play.Common/ \
+        --configuration Release \
+        -p:PackageVersion=${{ needs.generate-version.outputs.new_version }} \
+        -p:RepositoryUrl=https://github.com/${{github.repository_owner}}/play.common \
+        -o packages
+
+    - name: Publish
+      run: dotnet nuget push packages/*.nupkg

@@ -1,0 +1,58 @@
+
+version: "3.8"
+
+services: 
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    volumes: 
+      - mongodbdata:/data/db
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports: 
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
+    hostname: rabbitmq
+
+  seq:
+    image: datalust/seq
+    container_name: seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 80:80
+    volumes:
+      - seqdata:/data
+  
+  jaeger:
+    image: jaegertracing/all-in-one
+    container_name: jaeger
+    ports:
+      - 5778:5778
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 14250:14250
+      - 14268:14268
+      - 16686:16686
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/otel.yml:/etc/prometheus/prometheus.yml
+      - prometheusdata:/prometheus
+
+volumes: 
+  mongodbdata:
+  rabbitmqdata:
+  seqdata:
+  prometheusdata:

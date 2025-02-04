@@ -1,0 +1,38 @@
+# Default values for frontend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: playeconomy.azurecr.io/play.frontend
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+configValues:
+  CATALOG_ITEMS_API_URL: ${window.location.origin}/catalog-svc/items
+  INVENTORY_ITEMS_API_URL: ${window.location.origin}/inventory-svc/items
+  IDENTITY_SERVICE_URL: ${window.location.origin}/identity-svc
+  USERS_API_URL: ${window.location.origin}/identity-svc/users
+  TRADING_SERVICE_URL: ${window.location.origin}/trading-svc
+  PURCHASE_API_URL: ${window.location.origin}/trading-svc/purchase
+  STORE_API_URL: ${window.location.origin}/trading-svc/store
+
+podAnnotations: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    memory: "128Mi"
+    cpu: "150m"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
